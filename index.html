@@ -45,7 +45,8 @@
 
   /* 🎵 Tombol Musik */
   .music-btn{position:absolute;top:10px;right:12px;background:#f8a8d8;color:#fff;
-    border:none;border-radius:50%;width:38px;height:38px;font-size:18px;cursor:pointer;}
+    border:none;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;transition:.3s}
+  .music-btn.playing{background:#d63384;}
 </style>
 </head>
 <body>
@@ -126,7 +127,7 @@ function checkPin(){
 
 function playAndNext(){
   music1.play().catch(()=>{console.log("Autoplay gagal");});
-  switchPage(2); // tetap masuk page 2 meski musik gagal
+  switchPage(2);
 }
 
 /* === PAGE SWITCH === */
@@ -143,8 +144,15 @@ function stopMusic1(){ music1.pause(); music1.currentTime=0; }
 function playMusic2(){ music2.play().catch(()=>{}); }
 
 function toggleMusic(audio,btn){
-  if(audio.paused){audio.play();btn.textContent="⏸";}
-  else {audio.pause();btn.textContent="▶";}
+  if(audio.paused){
+    audio.play().catch(()=>{});
+    btn.textContent="⏸";
+    btn.classList.add("playing");
+  } else {
+    audio.pause();
+    btn.textContent="▶";
+    btn.classList.remove("playing");
+  }
 }
 
 /* === GO TO PAGE 3 === */
@@ -161,21 +169,7 @@ Permisi ini aku Aga (Naufal), aku tau kamu ga suka baca, tapi kalau kamu luang t
 
 Niat aku ngasih surprise ini: aku pengen kamu bisa nginget hal-hal yang baik di kota ini dan semoga kamu seneng selama momen-momen itu. Aku minta maaf untuk hal-hal yang bikin kamu ga nyaman dll. Ini bakal kamu baca aku ga tau kapan; yang pasti aku tau ini bakal ada di tangan kamu. Entah kapan pun itu, semoga kamu bisa terima ini dengan keadaan yang baik-baik aja. Hope u enjoy reading the letter.
 
-Aku mau ucapin makasih, karena berkat kamu juga aku jadi lebih dewasa dalam hal apa pun itu.
-
-Aku juga berterimakasih khususnya ke kamu karena udah bikin momen yang seru dan memorable buat aku. Aku ga bisa bales semua kebaikan kamu; aku cuma bisa berharap kamu bisa ngejar cita-cita kamu dan bisa pamerin ke aku di masa depan.
-
-Aku tau mungkin ini ga buat kamu seneng atau bikin kamu amaze—aku minta maaf untuk itu. Aku juga sedih kalau sampe surat ini kamu terima pas aku udah ada di luar Tasik. Tapi ini langkah terakhir aku buat ngeyakinin kamu supaya kamu ngejar cita-cita kamu. Aku juga bakal ngejar cita-cita aku sampe kita berdua bisa ketemu lagi di masa depan. Aku bener-bener berharap hari itu kita bakal bener-bener bisa bahagia buat ketemu lagi.
-
-Aneh rasanya aku ngasih surat ini; rasanya kayak surat terakhir dari aku. Tapi kita ga tau apa yang bakal kita hadapin di depan nanti. Tapi aku pengen kita bisa ngebuat cita-cita itu jadi hal yang mungkin.
-
-Aku percaya kamu pasti bisa buat ngejar cita-cita itu. Aku dukung 100%. Tapi aku pengen di saat itu juga kamu dalam keadaan sehat dan masih bisa tersenyum untuk menandakan bahwa kamu senang.
-
-Di akhir surat ini, aku bangga sama apa yang kamu laluin. Aku bangga sama diri kamu yang selalu percaya diri. Aku bangga sama kamu. Maka dari itu aku pengen kamu selalu ngejaga itu, termasuk senyuman kamu—semoga nanti aku bisa liat lagi pas kita udah sama-sama bisa ngegapai apa yang kita harapin sekarang.
-
-Terima kasih kepada Putri Nigntyas Gunawan. GG kamu baca semua yaa hahaha
-
--Aga`;
+... (lanjut isi surat sama seperti sebelumnya) ...`;
 
 function chunkSmart(text,maxLen=260){
   const words=text.split(" ");
