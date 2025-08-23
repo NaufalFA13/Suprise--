@@ -27,21 +27,17 @@
   @keyframes float{from{transform:translateY(-40px);opacity:0}to{transform:translateY(100vh);opacity:1}}
 
   /* 🐻 Animasi Beruang */
-  .bear {width: 120px;height: 120px;background: #8d6e63;border-radius: 50%;
-    position: relative;margin: 20px auto;animation: bounce 2s infinite ease-in-out;}
-  .bear::before,.bear::after {content:"";position:absolute;width:40px;height:40px;
-    background:#8d6e63;border-radius:50%;top:-20px;}
-  .bear::before{ left:-20px; } .bear::after{ right:-20px; }
-  .eye{ width:14px;height:14px;background:#000;border-radius:50%;
-    position:absolute;top:40px;}
-  .eye.left{ left:35px; animation: blink 4s infinite; }
-  .eye.right{ right:35px; animation: blink 4s infinite; }
-  @keyframes blink {0%,90%,100%{transform:scaleY(1);}95%{transform:scaleY(0.1);} }
-  .nose{ width:24px;height:18px;background:#000;border-radius:50%;
-    position:absolute;top:65px;left:calc(50% - 12px);}
-  .mouth{ width:40px;height:20px;border-bottom:4px solid #000;border-radius:0 0 40px 40px;
-    position:absolute;top:80px;left:calc(50% - 20px);}
-  @keyframes bounce {0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+  .bear{width:120px;height:120px;background:#8d6e63;border-radius:50%;
+    position:relative;margin:20px auto;animation:bounce 2s infinite ease-in-out;}
+  .bear::before,.bear::after{content:"";position:absolute;width:40px;height:40px;background:#8d6e63;border-radius:50%;top:-20px;}
+  .bear::before{left:-20px} .bear::after{right:-20px}
+  .eye{width:14px;height:14px;background:#000;border-radius:50%;position:absolute;top:40px}
+  .eye.left{left:35px;animation:blink 4s infinite}
+  .eye.right{right:35px;animation:blink 4s infinite}
+  @keyframes blink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+  .nose{width:24px;height:18px;background:#000;border-radius:50%;position:absolute;top:65px;left:calc(50% - 12px)}
+  .mouth{width:40px;height:20px;border-bottom:4px solid #000;border-radius:0 0 40px 40px;position:absolute;top:80px;left:calc(50% - 20px)}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
 
   /* 🎵 Tombol Musik */
   .music-btn{position:absolute;top:10px;right:12px;background:#f8a8d8;color:#fff;
@@ -56,38 +52,30 @@
       <h2>Masukkan PIN</h2>
       <input id="pinInput" class="pin" type="password" maxlength="6" placeholder="****" />
       <button onclick="checkPin()">Cek PIN</button>
-      <button id="playBtn" onclick="playAndNext()" style="display:none; margin-top:20px;">
+      <button id="playBtn" onclick="playAndNext()" style="display:none;margin-top:20px;">
         Putar Musik & Masuk
       </button>
     </div>
   </div>
 
-  <!-- Page 2: Welcome -->
+  <!-- Page 2 -->
   <div id="page2" class="page">
-    <div class="card" style="position:relative; padding-bottom:60px;">
+    <div class="card" style="position:relative;padding-bottom:60px;">
       <button class="music-btn" onclick="toggleMusic(music1,this)">▶</button>
-      <h2 style="font-size:22px; font-weight:700; color:#d63384; margin-bottom:10px;">
-        Diary Putri
-      </h2>
-      <p style="font-size:15px; line-height:1.6; margin:0 0 14px 0;">
-        aku takut suratnya udah susah di baca jadi aku buat backup<br/>
-        dalam bentuk web yang bisa kamu scan
+      <h2 style="font-size:22px;font-weight:700;color:#d63384;margin-bottom:10px;">Diary Putri</h2>
+      <p style="font-size:15px;line-height:1.6;margin:0 0 14px 0;">
+        aku takut suratnya udah susah di baca jadi aku buat backup<br/>dalam bentuk web yang bisa kamu scan
       </p>
       <div class="bear">
         <div class="eye left"></div><div class="eye right"></div>
         <div class="nose"></div><div class="mouth"></div>
       </div>
-      <button onclick="goToPage3()" 
-        style="position:absolute; bottom:12px; left:12px; background:#f8a8d8; font-size:15px;">
-        Lanjut ➜
-      </button>
-      <p style="position:absolute; bottom:16px; right:16px; font-size:13px; color:#555; margin:0;">
-        23-08-2025 Tasikmalaya
-      </p>
+      <button onclick="goToPage3()" style="position:absolute;bottom:12px;left:12px;background:#f8a8d8;font-size:15px;">Lanjut ➜</button>
+      <p style="position:absolute;bottom:16px;right:16px;font-size:13px;color:#555;margin:0;">23-08-2025 Tasikmalaya</p>
     </div>
   </div>
 
-  <!-- Page 3: Surat Carousel -->
+  <!-- Page 3: Carousel Surat -->
   <div id="page3" class="page">
     <div class="card">
       <button class="music-btn" onclick="toggleMusic(music2,this)">▶</button>
@@ -103,80 +91,74 @@
   </div>
 
   <!-- Musik -->
-  <audio id="music1" preload="auto" loop>
-    <source src="lagu2.mp3" type="audio/mpeg" />
-  </audio>
-  <audio id="music2" preload="auto" loop>
-    <source src="lagu.mp3" type="audio/mpeg" />
-  </audio>
+  <audio id="music1" preload="auto" loop><source src="lagu2.mp3" type="audio/mpeg"/></audio>
+  <audio id="music2" preload="auto" loop><source src="lagu.mp3" type="audio/mpeg"/></audio>
 
 <script>
-/* === PIN LOGIC === */
-const correctPin = "1326";
-
+/* === PIN === */
+const correctPin="1326";
 function checkPin(){
-  const val = document.getElementById("pinInput").value;
-  if(val === correctPin){
-    document.getElementById("playBtn").style.display = "inline-block";
-    alert("PIN benar! Klik tombol 'Putar Musik & Masuk' untuk lanjut.");
-  } else {
+  const val=document.getElementById("pinInput").value;
+  if(val===correctPin){
+    document.getElementById("playBtn").style.display="inline-block";
+    alert("PIN benar! Klik 'Putar Musik & Masuk'.");
+  }else{
     alert("PIN salah, coba lagi ya 💕");
-    document.getElementById("playBtn").style.display = "none";
+    document.getElementById("playBtn").style.display="none";
   }
 }
-
 function playAndNext(){
-  music1.play().catch(()=>{console.log("Autoplay gagal");});
+  music1.play().catch(()=>{console.log("Autoplay gagal (normal di mobile/Pages)");});
   switchPage(2);
 }
 
-/* === PAGE SWITCH === */
+/* === Navigasi Halaman === */
 function switchPage(n){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("show"));
   document.getElementById("page"+n).classList.add("show");
 }
 
-/* === MUSIC === */
+/* === Musik === */
 const music1=document.getElementById("music1");
 const music2=document.getElementById("music2");
-
-function stopMusic1(){ music1.pause(); music1.currentTime=0; }
-function playMusic2(){ music2.play().catch(()=>{}); }
-
+function stopMusic1(){music1.pause();music1.currentTime=0;}
+function playMusic2(){music2.play().catch(()=>{});}
 function toggleMusic(audio,btn){
-  if(audio.paused){
-    audio.play().catch(()=>{});
-    btn.textContent="⏸";
-    btn.classList.add("playing");
-  } else {
-    audio.pause();
-    btn.textContent="▶";
-    btn.classList.remove("playing");
-  }
+  if(audio.paused){audio.play().catch(()=>{});btn.textContent="⏸";btn.classList.add("playing");}
+  else{audio.pause();btn.textContent="▶";btn.classList.remove("playing");}
 }
+function goToPage3(){stopMusic1();playMusic2();switchPage(3);}
 
-/* === GO TO PAGE 3 === */
-function goToPage3(){
-  stopMusic1();
-  playMusic2();
-  switchPage(3);
-}
-
-/* === SURAT TEKS === */
-const fullText=`Tasikmalaya 21 agustus 2025
+/* === TEKS PENUH DARI DOCX (dirapikan) === */
+const fullText = `Tasikmalaya 21 agustus 2025
 
 Permisi ini aku Aga (Naufal), aku tau kamu ga suka baca, tapi kalau kamu luang tolong baca surat yang aku buat ini yaa..
 
 Niat aku ngasih surprise ini: aku pengen kamu bisa nginget hal-hal yang baik di kota ini dan semoga kamu seneng selama momen-momen itu. Aku minta maaf untuk hal-hal yang bikin kamu ga nyaman dll. Ini bakal kamu baca aku ga tau kapan; yang pasti aku tau ini bakal ada di tangan kamu. Entah kapan pun itu, semoga kamu bisa terima ini dengan keadaan yang baik-baik aja. Hope u enjoy reading the letter.
 
-... (lanjut isi surat kamu di sini) ...`;
+Aku mau ucapin makasih, karena berkat kamu juga aku jadi lebih dewasa dalam hal apa pun itu.
 
+Aku juga berterimakasih khususnya ke kamu karena udah bikin momen yang seru dan memorable buat aku. Aku ga bisa bales semua kebaikan kamu; aku cuma bisa berharap kamu bisa ngejar cita-cita kamu dan bisa pamerin ke aku di masa depan.
+
+Aku tau mungkin ini ga buat kamu seneng atau bikin kamu amaze—aku minta maaf untuk itu. Aku juga sedih kalau sampe surat ini kamu terima pas aku udah ada di luar Tasik. Tapi ini langkah terakhir aku buat ngeyakinin kamu supaya kamu ngejar cita-cita kamu. Aku juga bakal ngejar cita-cita aku sampe kita berdua bisa ketemu lagi di masa depan. Aku bener-bener berharap hari itu kita bakal bener-bener bisa bahagia buat ketemu lagi.
+
+Aneh rasanya aku ngasih surat ini; rasanya kayak surat terakhir dari aku. Tapi kita ga tau apa yang bakal kita hadapin di depan nanti. Tapi aku pengen kita bisa ngebuat cita-cita itu jadi hal yang mungkin.
+
+Aku percaya kamu pasti bisa buat ngejar cita-cita itu. Aku dukung 100%. Tapi aku pengen di saat itu juga kamu dalam keadaan sehat dan masih bisa tersenyum untuk menandakan bahwa kamu senang.
+
+Di akhir surat ini, aku bangga sama apa yang kamu laluin. Aku bangga sama diri kamu yang selalu percaya diri. Aku bangga sama kamu. Maka dari itu aku pengen kamu selalu ngejaga itu, termasuk senyuman kamu—semoga nanti aku bisa liat lagi pas kita udah sama-sama bisa ngegapai apa yang kita harapin sekarang.
+
+Terima kasih kepada Putri Nigntyas Gunawan. GG kamu baca semua yaa hahaha
+
+-Aga`;
+
+/* === Bikin slide otomatis & render === */
 function chunkSmart(text,maxLen=260){
   const words=text.split(" ");
   const slides=[];let buf="";
   for(const w of words){
     if((buf+" "+w).length>maxLen){slides.push(buf.trim());buf=w;}
-    else buf+=" "+w;
+    else{buf+=(buf?" ":"")+w;}
   }
   if(buf.trim())slides.push(buf.trim());
   return slides;
@@ -187,7 +169,6 @@ const cardText=document.getElementById("cardText");
 const dots=document.getElementById("dots");
 const emojiCorner=document.getElementById("emojiCorner");
 const emojis=['💖','🌸','🐰','✨','🍓','🐱','🦄','💐','🌈','🪽','🫶','🎀','⭐','🥰'];
-
 function render(){
   cardText.textContent=chunks[page];
   dots.innerHTML=chunks.map((_,i)=>`<span class="dot ${i===page?'active':''}"></span>`).join("");
@@ -197,7 +178,7 @@ function prev(){page=(page-1+chunks.length)%chunks.length;render();}
 function next(){page=(page+1)%chunks.length;render();}
 render();
 
-/* === Dekorasi animasi === */
+/* === Dekorasi jatuh === */
 setInterval(()=>{
   const el=document.createElement("div");
   el.className="decor";
