@@ -4,18 +4,27 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Dear Putri</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  body{margin:0;font-family:'Comic Sans MS',cursive,sans-serif;
-    background:linear-gradient(135deg,#ffe4ec,#e0d4ff,#d0f0ff);overflow:hidden}
-  .page{min-height:100vh;display:none;align-items:center;justify-content:center;
-    flex-direction:column;text-align:center;}
+  body{
+    margin:0;
+    font-family:'Poppins', sans-serif;
+    background:linear-gradient(135deg,#ffe4ec,#e0d4ff,#d0f0ff);
+    overflow:hidden;
+  }
+  .page{min-height:100vh;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;}
   .page.show{display:flex;}
-  .card{width:92%;max-width:460px;aspect-ratio:1/1.2;background:rgba(255,255,255,.92);
+  .card{
+    width:92%;max-width:460px;aspect-ratio:1/1.2;background:rgba(255,255,255,.92);
     border:4px solid #f8a8d8;border-radius:24px;box-shadow:0 8px 30px rgba(0,0,0,.12);
     display:flex;flex-direction:column;align-items:center;text-align:center;
-    padding:16px;position:relative;color:#d63384}
+    padding:16px;position:relative;color:#d63384;
+  }
   input.pin{font-size:20px;padding:8px 12px;border:2px solid #f8a8d8;border-radius:12px;text-align:center}
-  button{margin-top:14px;padding:10px 20px;border:none;border-radius:12px;background:#f8a8d8;color:#fff;font-size:16px;cursor:pointer;transition:all 0.3s}
+  button{
+    margin-top:14px;padding:10px 20px;border:none;border-radius:12px;
+    background:#f8a8d8;color:#fff;font-size:16px;cursor:pointer;transition:all 0.3s
+  }
   button:hover{background:#d63384;transform:scale(1.05)}
   .title{font-size:24px;font-weight:700;color:#d63384;margin-bottom:8px;padding:6px 12px;border-bottom:2px dashed #f8a8d8}
   .text{flex:1;overflow-y:auto;white-space:pre-line;line-height:1.55;font-size:15px;padding:6px}
@@ -129,7 +138,7 @@ function toggleMusic(audio,btn){
 }
 function goToPage3(){stopMusic1();playMusic2();switchPage(3);}
 
-/* === TEKS PENUH DARI DOCX (dirapikan) === */
+/* === TEKS PENUH DARI DOCX === */
 const fullText = `Tasikmalaya 21 agustus 2025
 
 Permisi ini aku Aga (Naufal), aku tau kamu ga suka baca, tapi kalau kamu luang tolong baca surat yang aku buat ini yaa..
@@ -152,7 +161,7 @@ Terima kasih kepada Putri Nigntyas Gunawan. GG kamu baca semua yaa hahaha
 
 -Aga`;
 
-/* === Bikin slide otomatis & render === */
+/* === Slide otomatis === */
 function chunkSmart(text,maxLen=260){
   const words=text.split(" ");
   const slides=[];let buf="";
