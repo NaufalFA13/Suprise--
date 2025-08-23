@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dear Putri</title>
+<style>
+  body{margin:0;font-family:'Comic Sans MS',cursive,sans-serif;
+    background:linear-gradient(135deg,#ffe4ec,#e0d4ff,#d0f0ff);overflow:hidden}
+  .page{
+    min-height:100vh;display:none;align-items:center;justify-content:center;
+    flex-direction:column;text-align:center;
+  }
+  .page.show{display:flex;}
+  .card{width:92%;max-width:460px;aspect-ratio:1/1.2;background:rgba(255,255,255,.92);
+    border:4px solid #f8a8d8;border-radius:24px;box-shadow:0 8px 30px rgba(0,0,0,.12);
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    padding:16px;position:relative;color:#d63384}
+  input.pin{font-size:20px;padding:8px 12px;border:2px solid #f8a8d8;border-radius:12px;text-align:center}
+  button{margin-top:14px;padding:10px 20px;border:none;border-radius:12px;background:#f8a8d8;color:#fff;font-size:16px;cursor:pointer;transition:all 0.3s}
+  button:hover{background:#d63384;transform:scale(1.05)}
+  .title{font-size:24px;font-weight:700;color:#d63384;margin-bottom:8px;padding:6px 12px;border-bottom:2px dashed #f8a8d8}
+  .text{flex:1;overflow-y:auto;white-space:pre-line;line-height:1.55;font-size:15px;padding:6px}
+  .emoji-corner{position:absolute;right:12px;bottom:8px;font-size:24px}
+  .controls{margin-top:18px;display:flex;gap:18px}
+  .dot{width:10px;height:10px;border-radius:50%;background:#f8c8e8;margin:0 3px;display:inline-block}
+  .dot.active{background:#d63384}
+  .decor{position:absolute;font-size:20px;animation:float 6s linear infinite;opacity:.75;pointer-events:none}
+  @keyframes float{from{transform:translateY(-40px);opacity:0}to{transform:translateY(100vh);opacity:1}}
+
+  /* 🐻 Animasi Beruang Lucu */
+  .bear {width: 120px;height: 120px;background: #8d6e63;border-radius: 50%;
+    position: relative;margin: 20px auto;animation: bounce 2s infinite ease-in-out;}
+  .bear::before,.bear::after {content:"";position:absolute;width:40px;height:40px;
+    background:#8d6e63;border-radius:50%;top:-20px;}
+  .bear::before{ left:-20px; } .bear::after{ right:-20px; }
+  .eye{ width:14px;height:14px;background:#000;border-radius:50%;
+    position:absolute;top:40px;}
+  .eye.left{ left:35px; animation: blink 4s infinite; }
+  .eye.right{ right:35px; animation: blink 4s infinite; }
+  @keyframes blink {0%,90%,100%{transform:scaleY(1);}95%{transform:scaleY(0.1);} }
+  .nose{ width:24px;height:18px;background:#000;border-radius:50%;
+    position:absolute;top:65px;left:calc(50% - 12px);}
+  .mouth{ width:40px;height:20px;border-bottom:4px solid #000;border-radius:0 0 40px 40px;
+    position:absolute;top:80px;left:calc(50% - 20px);}
+  @keyframes bounce {0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+</style>
+</head>
+<body>
+  <!-- Page 1: PIN -->
+  <div id="page1" class="page show">
+    <div class="card">
+      <h2>Masukkan PIN</h2>
+      <input id="pinInput" class="pin" type="password" maxlength="6" placeholder="****" />
+      <button onclick="checkPin()">Cek PIN</button>
+
+      <!-- Tombol play musik muncul setelah PIN benar -->
+      <button id="playBtn" onclick="playAndNext()" style="display:none; margin-top:20px;">
+        Putar Musik & Masuk
+      </button>
+    </div>
+  </div>
+
+  <!-- Page 2: Welcome -->
+  <div id="page2" class="page">
+    <div class="card" style="position:relative; padding-bottom:60px;">
+      <!-- Judul -->
+      <h2 style="font-size:22px; font-weight:700; color:#d63384; margin-bottom:10px;">
+        Diary Putri
+      </h2>
+
+      <!-- Teks deskripsi -->
+      <p style="font-size:15px; line-height:1.6; margin:0 0 14px 0;">
+        aku takut suratnya udah susah di baca jadi aku buat backup<br/>
+        dalam bentuk web yang bisa kamu scan
+      </p>
+
+      <!-- Beruang di tengah -->
+      <div class="bear">
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="nose"></div>
+        <div class="mouth"></div>
+      </div>
+
+      <!-- Tombol kiri bawah -->
+      <button onclick="goToPage3()" 
+        style="position:absolute; bottom:12px; left:12px; background:#f8a8d8; font-size:15px;">
+        Lanjut ➜
+      </button>
+
+      <!-- Tanggal di kanan bawah -->
+      <p style="position:absolute; bottom:16px; right:16px; font-size:13px; color:#555; margin:0;">
+        23-08-2025 Tasikmalaya
+      </p>
+    </div>
+  </div>
+
+  <!-- Page 3: Surat Carousel -->
+  <div id="page3" class="page">
+    <div class="card">
+      <div class="title">Dear Putri</div>
+      <div id="cardText" class="text"></div>
+      <div id="emojiCorner" class="emoji-corner">💖</div>
+    </div>
+    <div class="controls">
+      <button onclick="prev()">⟨</button>
+      <button onclick="next()">⟩</button>
+    </div>
+    <div id="dots"></div>
+  </div>
+
+  <!-- Musik -->
+  <audio id="music1" preload="auto" loop>
+    <source src="Lagu2.mp3" type="audio/mpeg" />
+  </audio>
+  <audio id="music2" preload="auto" loop>
+    <source src="Lagu.mp3" type="audio/mpeg" />
+  </audio>
+
+<script>
+/* === PIN LOGIC === */
+const correctPin = "1326";
+
+function checkPin(){
+  const val = document.getElementById("pinInput").value;
+  if(val === correctPin){
+    document.getElementById("playBtn").style.display = "inline-block";
+    alert("PIN benar! Klik tombol 'Putar Musik & Masuk' untuk lanjut.");
+  } else {
+    alert("PIN salah, coba lagi ya 💕");
+    document.getElementById("playBtn").style.display = "none";
+  }
+}
+
+// Fungsi play + masuk page 2
+function playAndNext(){
+  music1.play().then(()=>{
+    switchPage(2);
+  }).catch(()=>{
+    alert("Klik sekali lagi untuk mengaktifkan musik 💕");
+  });
+}
+
+/* === PAGE SWITCH === */
+function switchPage(n){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("show"));
+  document.getElementById("page"+n).classList.add("show");
+}
+
+/* === MUSIC === */
+const music1=document.getElementById("music1");
+const music2=document.getElementById("music2");
+
+function stopMusic1(){ music1.pause(); music1.currentTime=0; }
+function playMusic2(){ music2.play().catch(()=>{}); }
+
+/* === GO TO PAGE 3 === */
+function goToPage3(){
+  stopMusic1();
+  playMusic2();
+  switchPage(3);
+}
+
+/* === SURAT TEKS === */
+const fullText=`Tasikmalaya 21 agustus 2025
+
+Permisi ini aku Aga (Naufal), aku tau kamu ga suka baca, tapi kalau kamu luang tolong baca surat yang aku buat ini yaa..
+
+Niat aku ngasih surprise ini: aku pengen kamu bisa nginget hal-hal yang baik di kota ini dan semoga kamu seneng selama momen-momen itu. Aku minta maaf untuk hal-hal yang bikin kamu ga nyaman dll. Ini bakal kamu baca aku ga tau kapan; yang pasti aku tau ini bakal ada di tangan kamu. Entah kapan pun itu, semoga kamu bisa terima ini dengan keadaan yang baik-baik aja. Hope u enjoy reading the letter.
+
+Aku mau ucapin makasih, karena berkat kamu juga aku jadi lebih dewasa dalam hal apa pun itu.
+
+Aku juga berterimakasih khususnya ke kamu karena udah bikin momen yang seru dan memorable buat aku. Aku ga bisa bales semua kebaikan kamu; aku cuma bisa berharap kamu bisa ngejar cita-cita kamu dan bisa pamerin ke aku di masa depan.
+
+Aku tau mungkin ini ga buat kamu seneng atau bikin kamu amaze—aku minta maaf untuk itu. Aku juga sedih kalau sampe surat ini kamu terima pas aku udah ada di luar Tasik. Tapi ini langkah terakhir aku buat ngeyakinin kamu supaya kamu ngejar cita-cita kamu. Aku juga bakal ngejar cita-cita aku sampe kita berdua bisa ketemu lagi di masa depan. Aku bener-bener berharap hari itu kita bakal bener-bener bisa bahagia buat ketemu lagi.
+
+Aneh rasanya aku ngasih surat ini; rasanya kayak surat terakhir dari aku. Tapi kita ga tau apa yang bakal kita hadapin di depan nanti. Tapi aku pengen kita bisa ngebuat cita-cita itu jadi hal yang mungkin.
+
+Aku percaya kamu pasti bisa buat ngejar cita-cita itu. Aku dukung 100%. Tapi aku pengen di saat itu juga kamu dalam keadaan sehat dan masih bisa tersenyum untuk menandakan bahwa kamu senang.
+
+Di akhir surat ini, aku bangga sama apa yang kamu laluin. Aku bangga sama diri kamu yang selalu percaya diri. Aku bangga sama kamu. Maka dari itu aku pengen kamu selalu ngejaga itu, termasuk senyuman kamu—semoga nanti aku bisa liat lagi pas kita udah sama-sama bisa ngegapai apa yang kita harapin sekarang.
+
+Terima kasih kepada Putri Nigntyas Gunawan. GG kamu baca semua yaa hahaha
+
+-Aga`;
+
+/* === SPLIT CERDAS === */
+function chunkSmart(text,maxLen=260){
+  const words=text.split(" ");
+  const slides=[];let buf="";
+  for(const w of words){
+    if((buf+" "+w).length>maxLen){slides.push(buf.trim());buf=w;}
+    else buf+=" "+w;
+  }
+  if(buf.trim())slides.push(buf.trim());
+  return slides;
+}
+const chunks=chunkSmart(fullText,260);
+let page=0;
+const cardText=document.getElementById("cardText");
+const dots=document.getElementById("dots");
+const emojiCorner=document.getElementById("emojiCorner");
+const emojis=['💖','🌸','🐰','✨','🍓','🐱','🦄','💐','🌈','🪽','🫶','🎀','⭐','🥰'];
+
+function render(){
+  cardText.textContent=chunks[page];
+  dots.innerHTML=chunks.map((_,i)=>`<span class="dot ${i===page?'active':''}"></span>`).join("");
+  emojiCorner.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+}
+function prev(){page=(page-1+chunks.length)%chunks.length;render();}
+function next(){page=(page+1)%chunks.length;render();}
+render();
+
+/* === Dekorasi animasi love/✨ === */
+setInterval(()=>{
+  const el=document.createElement("div");
+  el.className="decor";
+  el.textContent=Math.random()>0.5?'✨':'💖';
+  el.style.left=(Math.random()*window.innerWidth)+'px';
+  el.style.top='-20px';
+  el.style.animationDuration=(4+Math.random()*6)+'s';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),10000);
+},900);
+</script>
+</body>
+</html>
