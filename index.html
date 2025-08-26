@@ -6,145 +6,159 @@
 <title>Dear Putri</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --pink:#f8a8d8; --hot:#d63384;
-  }
-  body{
-    margin:0; font-family:'Poppins',sans-serif;
-    background:linear-gradient(135deg,#ffe4ec,#e0d4ff,#d0f0ff);
-    overflow:hidden;
-  }
-  .page{min-height:100vh;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;}
-  .page.show{display:flex;}
-  .card{
-    width:92%;max-width:460px;aspect-ratio:1/1.2;background:rgba(255,255,255,.92);
-    border:4px solid var(--pink);border-radius:24px;box-shadow:0 8px 30px rgba(0,0,0,.12);
-    display:flex;flex-direction:column;align-items:center;text-align:center;
-    padding:16px;position:relative;color:var(--hot);
-  }
-  input.pin{font-size:20px;padding:8px 12px;border:2px solid var(--pink);border-radius:12px;text-align:center;outline:none}
-  button{
-    margin-top:14px;padding:10px 20px;border:none;border-radius:12px;
-    background:var(--pink);color:#fff;font-size:16px;cursor:pointer;transition:all .3s
-  }
-  button:hover{background:var(--hot);transform:scale(1.05)}
-  .title{font-size:24px;font-weight:700;color:var(--hot);margin-bottom:8px;padding:6px 12px;border-bottom:2px dashed var(--pink)}
-  .text{flex:1;overflow-y:auto;white-space:pre-line;line-height:1.55;font-size:15px;padding:6px}
-  .emoji-corner{position:absolute;right:12px;bottom:8px;font-size:24px}
-  .controls{margin-top:18px;display:flex;gap:18px}
-  .dot{width:10px;height:10px;border-radius:50%;background:#f8c8e8;margin:0 3px;display:inline-block}
-  .dot.active{background:var(--hot)}
-  .decor{position:absolute;font-size:20px;animation:float 6s linear infinite;opacity:.75;pointer-events:none}
-  @keyframes float{from{transform:translateY(-40px);opacity:0}to{transform:translateY(100vh);opacity:1}}
+:root{
+  --pink:#f8a8d8; --hot:#d63384;
+}
+body{
+  margin:0; font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#ffe4ec,#e0d4ff,#d0f0ff);
+  overflow:hidden;
+}
+.page{min-height:100vh;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;}
+.page.show{display:flex;}
+.card{
+  width:92%;max-width:460px;aspect-ratio:1/1.2;background:rgba(255,255,255,.92);
+  border:4px solid var(--pink);border-radius:24px;box-shadow:0 8px 30px rgba(0,0,0,.12);
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:16px;position:relative;color:var(--hot);
+}
+input.pin{font-size:20px;padding:8px 12px;border:2px solid var(--pink);border-radius:12px;text-align:center;outline:none}
+button{
+  margin-top:14px;padding:10px 20px;border:none;border-radius:12px;
+  background:var(--pink);color:#fff;font-size:16px;cursor:pointer;transition:all .3s
+}
+button:hover{background:var(--hot);transform:scale(1.05)}
+.title{font-size:24px;font-weight:700;color:var(--hot);margin-bottom:8px;padding:6px 12px;border-bottom:2px dashed var(--pink)}
+.text{
+  flex:1;overflow-y:auto;white-space:pre-line;line-height:1.8;font-size:18px;padding:12px;
+}
+@media (max-width:480px){
+  .text{font-size:16px;line-height:1.7;padding:10px;}
+}
+.emoji-corner{position:absolute;right:12px;bottom:8px;font-size:24px}
+.controls{margin-top:18px;display:flex;gap:18px}
+.dot{width:10px;height:10px;border-radius:50%;background:#f8c8e8;margin:0 3px;display:inline-block}
+.dot.active{background:var(--hot)}
+.decor{position:absolute;font-size:20px;animation:float 6s linear infinite;opacity:.75;pointer-events:none}
+@keyframes float{from{transform:translateY(-40px);opacity:0}to{transform:translateY(100vh);opacity:1}}
 
-  /* 🎵 Musik button */
-  .music-btn{position:absolute;top:10px;right:12px;background:var(--pink);color:#fff;
-    border:none;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;transition:.3s}
-  .music-btn.playing{background:var(--hot);}
+/* Musik button */
+.music-btn{position:absolute;top:10px;right:12px;background:var(--pink);color:#fff;
+  border:none;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;transition:.3s}
+.music-btn.playing{background:var(--hot);}
 
-  /* 🐼 Panda + ekspresi */
-  .panda {
-    width:120px;height:120px;background:#fff;border-radius:50%;
-    border:4px solid #000;position:relative;margin:20px auto;cursor:pointer;
-    transition:transform .6s ease;
-  }
-  .panda .ear{width:30px;height:30px;background:#000;border-radius:50%;position:absolute;top:-15px;}
-  .panda .ear.left{left:10px}
-  .panda .ear.right{right:10px}
+/* Panda + ekspresi */
+.panda {
+  width:120px;height:120px;background:#fff;border-radius:50%;
+  border:4px solid #000;position:relative;margin:20px auto;cursor:pointer;
+  transition:transform .6s ease;
+}
+.panda .ear{width:30px;height:30px;background:#000;border-radius:50%;position:absolute;top:-15px;}
+.panda .ear.left{left:10px}
+.panda .ear.right{right:10px}
+.panda .eye{width:28px;height:36px;background:#000;border-radius:50%;position:absolute;top:35px;}
+.panda .eye.left{left:25px}
+.panda .eye.right{right:25px}
+.panda .eye::after{content:"";width:12px;height:12px;background:#fff;border-radius:50%;position:absolute;top:8px;left:8px;}
+.panda .nose{width:20px;height:15px;background:#000;border-radius:50%;position:absolute;top:70px;left:calc(50% - 10px)}
+.panda .mouth{
+  width:40px;height:20px;border-bottom:3px solid #000;border-radius:0 0 40px 40px;
+  position:absolute;top:85px;left:calc(50% - 20px);transition:all .25s ease;
+}
+.panda.smile .mouth{border-bottom:5px solid #000;height:25px}
+.panda.surprised .mouth{border:none;width:22px;height:22px;border-radius:50%;background:#000;top:78px;left:calc(50% - 11px)}
+.panda.surprised .eye{width:34px;height:40px}
+.panda.shy::before,.panda.shy::after{
+  content:"";position:absolute;bottom:20px;width:20px;height:12px;background:pink;border-radius:50%;
+}
+.panda.shy::before{left:15px} .panda.shy::after{right:15px}
 
-  .panda .eye{width:28px;height:36px;background:#000;border-radius:50%;position:absolute;top:35px;}
-  .panda .eye.left{left:25px}
-  .panda .eye.right{right:25px}
-  .panda .eye::after{content:"";width:12px;height:12px;background:#fff;border-radius:50%;position:absolute;top:8px;left:8px;}
+/* Popup Pelukan */
+.hug-popup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;z-index:999;}
+.hug-box{
+  background:#fff;padding:30px 50px;border-radius:20px;font-size:22px;font-weight:600;color:var(--hot);
+  animation:hugAnim 1s ease-in-out infinite alternate; box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+@keyframes hugAnim{from{transform:scale(1)}to{transform:scale(1.18)}}
 
-  .panda .nose{width:20px;height:15px;background:#000;border-radius:50%;position:absolute;top:70px;left:calc(50% - 10px)}
-  .panda .mouth{
-    width:40px;height:20px;border-bottom:3px solid #000;border-radius:0 0 40px 40px;
-    position:absolute;top:85px;left:calc(50% - 20px);transition:all .25s ease;
-  }
+/* Galeri */
+.gallery-container{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:12px}
+.gallery-container img{width:120px;height:120px;object-fit:cover;border-radius:16px;cursor:pointer;transition:transform .3s}
+.gallery-container img:hover{transform:scale(1.05)}
+#galleryFullScreen{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);align-items:center;justify-content:center;z-index:9999;}
+#galleryFullScreen img{max-width:95%;max-height:95%;border-radius:12px;cursor:pointer}
 
-  /* 😁 Senyum */
-  .panda.smile .mouth{border-bottom:5px solid #000;height:25px}
-  /* 😲 Kaget */
-  .panda.surprised .mouth{border:none;width:22px;height:22px;border-radius:50%;background:#000;top:78px;left:calc(50% - 11px)}
-  .panda.surprised .eye{width:34px;height:40px}
-  /* 🥰 Malu (pipi pink) */
-  .panda.shy::before,.panda.shy::after{
-    content:"";position:absolute;bottom:20px;width:20px;height:12px;background:pink;border-radius:50%;
-  }
-  .panda.shy::before{left:15px} .panda.shy::after{right:15px}
-
-  /* 🤗 Popup Pelukan */
-  .hug-popup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;z-index:999;}
-  .hug-box{
-    background:#fff;padding:30px 50px;border-radius:20px;font-size:22px;font-weight:600;color:var(--hot);
-    animation:hugAnim 1s ease-in-out infinite alternate; box-shadow:0 10px 30px rgba(0,0,0,.2);
-  }
-  @keyframes hugAnim{from{transform:scale(1)}to{transform:scale(1.18)}}
-
-  /* kecilkan sedikit di layar sangat kecil */
-  @media (max-width:360px){
-    .card{max-width:420px}
-    .panda{transform:scale(.9)}
-  }
+/* kecilkan di layar kecil */
+@media (max-width:360px){.card{max-width:420px}.panda{transform:scale(.9)}}
 </style>
 </head>
 <body>
-  <!-- Page 1: PIN -->
-  <div id="page1" class="page show">
-    <div class="card">
-      <h2>Masukkan PIN</h2>
-      <input id="pinInput" class="pin" type="password" maxlength="6" placeholder="****" />
-      <button onclick="checkPin()">Cek PIN</button>
-      <button id="playBtn" onclick="playAndNext()" style="display:none;margin-top:20px;">Putar Musik & Masuk</button>
-    </div>
+
+<!-- Page 1: PIN -->
+<div id="page1" class="page show">
+  <div class="card">
+    <h2>Masukkan PIN</h2>
+    <input id="pinInput" class="pin" type="password" maxlength="6" placeholder="****" />
+    <button onclick="checkPin()">Cek PIN</button>
+    <button id="playBtn" onclick="playAndNext()" style="display:none;margin-top:20px;">Putar Musik & Masuk</button>
+    <button onclick="switchPage('gallery')" style="margin-top:10px;background:#d1b3f8;">Galeri</button>
   </div>
+</div>
 
-  <!-- Page 2: Panda interaktif -->
-  <div id="page2" class="page">
-    <div class="card" style="position:relative;padding-bottom:60px;">
-      <button class="music-btn" onclick="toggleMusic(music1,this)">▶</button>
-      <h2 style="font-size:22px;font-weight:700;color:#d63384;margin-bottom:10px;">Diary Putri</h2>
-      <p style="font-size:15px;line-height:1.6;margin:0 0 14px 0;">
-        aku takut suratnya udah susah di baca jadi aku buat backup<br/>dalam bentuk web yang bisa kamu scan
-      </p>
-
-      <!-- 🐼 Panda -->
-      <div id="panda" class="panda" onclick="movePanda()">
-        <div class="ear left"></div><div class="ear right"></div>
-        <div class="eye left"></div><div class="eye right"></div>
-        <div class="nose"></div><div class="mouth"></div>
-      </div>
-
-      <button onclick="goToPage3()" style="position:absolute;bottom:12px;left:12px;background:#f8a8d8;font-size:15px;">Lanjut ➜</button>
-      <p style="position:absolute;bottom:16px;right:16px;font-size:13px;color:#555;margin:0;">23-08-2025 Tasikmalaya</p>
+<!-- Page 2: Panda -->
+<div id="page2" class="page">
+  <div class="card" style="position:relative;padding-bottom:60px;">
+    <button class="music-btn" onclick="toggleMusic(music1,this)">▶</button>
+    <h2 style="font-size:22px;font-weight:700;color:#d63384;margin-bottom:10px;">Diary Putri</h2>
+    <p style="font-size:15px;line-height:1.6;margin:0 0 14px 0;">aku takut suratnya udah susah di baca jadi aku buat backup<br/>dalam bentuk web yang bisa kamu scan</p>
+    <div id="panda" class="panda" onclick="movePanda()">
+      <div class="ear left"></div><div class="ear right"></div>
+      <div class="eye left"></div><div class="eye right"></div>
+      <div class="nose"></div><div class="mouth"></div>
     </div>
+    <button onclick="goToPage3()" style="position:absolute;bottom:12px;left:12px;background:#f8a8d8;font-size:15px;">Selanjutnya ➜</button>
+    <p style="position:absolute;bottom:16px;right:16px;font-size:13px;color:#555;margin:0;">23-08-2025 Tasikmalaya</p>
   </div>
+</div>
 
-  <!-- Page 3: Carousel Surat -->
-  <div id="page3" class="page">
-    <div class="card">
-      <button class="music-btn" onclick="toggleMusic(music2,this)">▶</button>
-      <div class="title">Dear Putri</div>
-      <div id="cardText" class="text"></div>
-      <div id="emojiCorner" class="emoji-corner">💖</div>
-    </div>
-    <div class="controls">
-      <button onclick="prev()">⟨</button>
-      <button onclick="next()">⟩</button>
-    </div>
-    <div id="dots"></div>
+<!-- Page 3: Diary Carousel -->
+<div id="page3" class="page">
+  <div class="card">
+    <button class="music-btn" onclick="toggleMusic(music2,this)">▶</button>
+    <div class="title">Dear Putri</div>
+    <div id="cardText" class="text"></div>
+    <div id="emojiCorner" class="emoji-corner">💖</div>
   </div>
+  <div class="controls">
+    <button onclick="prev()">⟨</button>
+    <button onclick="next()">⟩</button>
+  </div>
+  <div id="dots"></div>
+</div>
 
-  <!-- Popup Pelukan -->
-  <div id="hugPopup" class="hug-popup"><div class="hug-box">🤗 Peluk dari jauh 🤗</div></div>
+<!-- Page Galeri -->
+<div id="gallery" class="page">
+  <div class="card" style="max-width:600px;flex-wrap:wrap;">
+    <h2>Galeri</h2>
+    <div class="gallery-container">
+      <img src="F1.jpg" onclick="openFullScreen(this)">
+      <img src="F2.png" onclick="openFullScreen(this)">
+      <img src="F3.jpg" onclick="openFullScreen(this)">
+    </div>
+    <button onclick="switchPage(1)">⬅ Kembali</button>
+  </div>
+</div>
+<div id="galleryFullScreen" onclick="closeFullScreen()"><img id="fsImg"></div>
 
-  <!-- Musik -->
-  <audio id="music1" preload="auto" loop><source src="lagu2.mp3" type="audio/mpeg"/></audio>
-  <audio id="music2" preload="auto" loop><source src="lagu.mp3" type="audio/mpeg"/></audio>
+<!-- Popup Pelukan -->
+<div id="hugPopup" class="hug-popup"><div class="hug-box">🤗 Peluk dari jauh 🤗</div></div>
+
+<!-- Musik -->
+<audio id="music1" preload="auto" loop><source src="lagu.mp3" type="audio/mpeg"/></audio>
+<audio id="music2" preload="auto" loop><source src="lagu2.mp3" type="audio/mpeg"/></audio>
 
 <script>
-/* === PIN gate === */
+// PIN
 const correctPin="1326";
 function checkPin(){
   const val=document.getElementById("pinInput").value.trim();
@@ -157,17 +171,14 @@ function checkPin(){
   }
 }
 function playAndNext(){
-  music1.play().catch(()=>{console.log("Autoplay ditolak (normal), user sudah klik tombol ini jadi harusnya jalan.");});
+  music1.play().catch(()=>{});
   switchPage(2);
 }
 
-/* === Page switch === */
-function switchPage(n){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("show"));
-  document.getElementById("page"+n).classList.add("show");
-}
+// Page switch
+function switchPage(n){document.querySelectorAll(".page").forEach(p=>p.classList.remove("show"));document.getElementById("page"+n)?.classList.add("show");document.getElementById(n)?.classList.add("show");}
 
-/* === Musik === */
+// Musik
 const music1=document.getElementById("music1");
 const music2=document.getElementById("music2");
 function stopMusic1(){music1.pause();music1.currentTime=0;}
@@ -178,29 +189,17 @@ function toggleMusic(audio,btn){
 }
 function goToPage3(){stopMusic1();playMusic2();switchPage(3);}
 
-/* === Panda interaktif + ekspresi === */
+// Panda interaktif
 let pandaClicks=0;
 function movePanda(){
   const panda=document.getElementById("panda");
   pandaClicks++;
-
-  // ubah ekspresi sesuai klik
-  if(pandaClicks===1){
-    panda.classList.add("smile");
-  }else if(pandaClicks===2){
-    panda.classList.remove("smile");
-    panda.classList.add("surprised");
-  }else if(pandaClicks===3){
-    panda.classList.remove("surprised");
-    panda.classList.add("shy");
-  }
-
-  // lompat ke posisi random (kecil agar tetap di dalam kartu)
+  if(pandaClicks===1){panda.classList.add("smile");}
+  else if(pandaClicks===2){panda.classList.remove("smile");panda.classList.add("surprised");}
+  else if(pandaClicks===3){panda.classList.remove("surprised");panda.classList.add("shy");}
   const x=(Math.random()*120-60);
   const y=(Math.random()*120-60);
   panda.style.transform=`translate(${x}px,${y}px)`;
-
-  // setelah klik ke-3, munculkan popup pelukan lalu reset
   if(pandaClicks===3){
     const popup=document.getElementById("hugPopup");
     popup.style.display="flex";
@@ -213,7 +212,7 @@ function movePanda(){
   }
 }
 
-/* === Teks Surat (dari DOCX, sudah dirapikan) === */
+// Diary
 const fullText = `Tasikmalaya 21 agustus 2025
 
 Permisi ini aku Aga (Naufal), aku tau kamu ga suka baca, tapi kalau kamu luang tolong baca surat yang aku buat ini yaa..
@@ -236,7 +235,6 @@ Terima kasih kepada Putri Nigntyas Gunawan. GG kamu baca semua yaa hahaha
 
 -Aga`;
 
-/* === Bagi ke slide & render === */
 function chunkSmart(text,maxLen=260){
   const words=text.split(" ");
   const slides=[];let buf="";
@@ -253,17 +251,12 @@ const cardText=document.getElementById("cardText");
 const dots=document.getElementById("dots");
 const emojiCorner=document.getElementById("emojiCorner");
 const emojis=['💖','🌸','🐰','✨','🍓','🐱','🦄','💐','🌈','🪽','🫶','🎀','⭐','🥰'];
-
-function render(){
-  cardText.textContent=chunks[page];
-  dots.innerHTML=chunks.map((_,i)=>`<span class="dot ${i===page?'active':''}"></span>`).join("");
-  emojiCorner.textContent=emojis[Math.floor(Math.random()*emojis.length)];
-}
+function render(){cardText.textContent=chunks[page];dots.innerHTML=chunks.map((_,i)=>`<span class="dot ${i===page?'active':''}"></span>`).join("");emojiCorner.textContent=emojis[Math.floor(Math.random()*emojis.length)];}
 function prev(){page=(page-1+chunks.length)%chunks.length;render();}
 function next(){page=(page+1)%chunks.length;render();}
 render();
 
-/* === Dekorasi jatuh === */
+// Dekorasi jatuh
 setInterval(()=>{
   const el=document.createElement("div");
   el.className="decor";
@@ -274,6 +267,10 @@ setInterval(()=>{
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),10000);
 },900);
+
+// Galeri fullscreen
+function openFullScreen(img){document.getElementById("fsImg").src=img.src;document.getElementById("galleryFullScreen").style.display="flex";}
+function closeFullScreen(){document.getElementById("galleryFullScreen").style.display="none";}
 </script>
 </body>
 </html>
